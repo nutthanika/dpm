@@ -27,7 +27,7 @@ jobs:
       shell: pwsh
 
     - name: Upload backup zip
-      uses: actions/upload-artifact@v2
+      uses: actions/nutthanika
       with:
         name: multipath-backup
         path: backup_*.zip
