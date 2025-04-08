@@ -1,0 +1,36 @@
+#GitHub Actions Workflow
+
+# .github/workflows/backup-pwsh-multipath.yml
+name: Backup Multiple Paths with PowerShell
+
+on:
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: windows-latest
+
+    steps:
+    - name: Run PowerShell Backup Script
+      run: |
+        $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+        $zipPath = "backup_$timestamp.zip"
+
+        $sourcePaths = @("C:\Data_Purge\script", "C:\Data_Purge\config")
+        $tempFolder = "C:\Temp\Backup_$timestamp"
+        New-Item -ItemType Directory -Force -Path $tempFolder | Out-Null
+
+        foreach ($path in $sourcePaths) {
+            $folderName = Split-Path $path -Leaf
+            Copy-Item -Path $path -Destination "$tempFolder\$folderName" -Recurse
+        }
+
+        Compress-Archive -Path "$tempFolder\*" -DestinationPath $zipPath
+        Write-Host "Backup created at $zipPath"
+      shell: pwsh
+
+    - name: Upload backup zip
+      uses: actions/upload-artifact@v3
+      with:
+        name: multipath-backup
+        path: backup_*.zip
