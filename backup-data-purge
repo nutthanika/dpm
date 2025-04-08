@@ -1,7 +1,4 @@
-#GitHub Actions Workflow
-
-# .github/workflows/backup-pwsh-multipath.yml
-name: Backup Multiple Paths with PowerShell
+name: Backup Data Purge
 
 on:
   workflow_dispatch:
@@ -14,10 +11,10 @@ jobs:
     - name: Run PowerShell Backup Script
       run: |
         $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-        $zipPath = "backup_$timestamp.zip"
+        $zipPath = "backup_25680408_145840.zip"
 
-        $sourcePaths = @("C:\Data_Purge\script", "C:\Data_Purge\config")
-        $tempFolder = "C:\Temp\Backup_$timestamp"
+        $sourcePaths = @("D:\Data_Purge\script", "D:\Data_Purge\config")
+        $tempFolder = "D:\Temp\Backup_$timestamp"
         New-Item -ItemType Directory -Force -Path $tempFolder | Out-Null
 
         foreach ($path in $sourcePaths) {
