@@ -1,4 +1,4 @@
-name: Backup Data Purge
+name: Backup Multiple Paths with PowerShell
 
 on:
   workflow_dispatch:
@@ -11,7 +11,7 @@ jobs:
     - name: Run PowerShell Backup Script
       run: |
         $timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
-        $zipPath = "backup_25680408_145840.zip"
+        $zipPath = "backup_$timestamp.zip"
 
         $sourcePaths = @("D:\Data_Purge\script", "D:\Data_Purge\config")
         $tempFolder = "D:\Temp\Backup_$timestamp"
@@ -27,7 +27,7 @@ jobs:
       shell: pwsh
 
     - name: Upload backup zip
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v2
       with:
         name: multipath-backup
         path: backup_*.zip
